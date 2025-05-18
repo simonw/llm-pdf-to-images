@@ -17,6 +17,12 @@ The `llm-pdf-to-images` plugin provides a [fragment loader](https://llm.datasett
 
 You can use the `pdf-to-images:` fragment prefix to convert a PDF file into a series of image attachments which can be sent to a model.
 
+Example usage:
+
+```bash
+llm -f pdf-to-images:path/to/document.pdf 'Summarize this document'
+```
+
 ### Fragment syntax
 
 ```
@@ -28,7 +34,7 @@ pdf-to-images:<path>?dpi=N&format=jpg|png&quality=Q
 - `format=jpg|png`: (optional) Image format to use for the output. Can be either `jpg` (default) or `png`.
 - `quality=Q`: (optional) JPEG quality factor between 1 and 100. Only applies when using JPG format. Defaults to `30` if omitted. Higher values produce better quality but larger file sizes.
 
-### Examples
+### More examples
 
 Convert a PDF file to images with default settings (300 DPI, JPG format, quality 30):
 
