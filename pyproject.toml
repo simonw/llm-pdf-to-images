@@ -1,0 +1,29 @@
+[project]
+name = "llm-pdf-to-images"
+version = "0.1"
+description = "LLM fragment plugin to load a PDF as a sequence of images"
+readme = "README.md"
+authors = [{name = "Simon Willison"}]
+license = "Apache-2.0"
+classifiers = []
+requires-python = ">=3.9"
+dependencies = [
+    "llm",
+    "PyMuPDF"
+]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.urls]
+Homepage = "https://github.com/simonw/llm-pdf-to-images"
+Changelog = "https://github.com/simonw/llm-pdf-to-images/releases"
+Issues = "https://github.com/simonw/llm-pdf-to-images/issues"
+CI = "https://github.com/simonw/llm-pdf-to-images/actions"
+
+[project.entry-points.llm]
+pdf_to_images = "llm_pdf_to_images"
+
+[project.optional-dependencies]
+test = ["pytest"]
