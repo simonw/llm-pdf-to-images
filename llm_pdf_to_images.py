@@ -9,17 +9,29 @@ import llm
 def register_fragment_loaders(register):
     """
     Register the "pdf-to-images" fragment loader.
-    Usage: pdf-to-images:/path/to/file.pdf?dpi=300&format=jpg&quality=80
+    Usage: pdf-to-images:/path/to/file.pdf?dpi=300&format=jpg&quality=80&pages=1,3-5
     """
     register("pdf-to-images", pdf_to_images_loader)
 
 
+def parse_pages(pages_str):
+    pages = set()
+    for part in pages_str.split(','):
+        if '-' in part:
+            start, end = map(int, part.split('-'))
+            pages.update(range(start, end + 1))
+        else:
+            pages.add(int(part))
+    return pages
+
+
 def pdf_to_images_loader(argument: str):
     """
-    Fragment loader "pdf-to-images:<path>?dpi=N&format=jpg|png&quality=Q"
+    Fragment loader "pdf-to-images:<path>?dpi=N&format=jpg|png&quality=Q&pages=P"
       - dpi: render resolution (dots per inch), default 300
       - format: "jpg" (default) or "png"
       - quality: JPEG quality 1–100, default 30
+      - pages: specific pages or page ranges, e.g., "1,3-5"
     """
     parts = urlparse(argument)
     pdf_path = parts.path
@@ -29,6 +41,7 @@ def pdf_to_images_loader(argument: str):
     dpi = int(params.get("dpi", ["300"])[0])
     img_format = params.get("format", ["jpg"])[0].lower()
     quality = int(params.get("quality", ["30"])[0])
+    pages = parse_pages(params.get("pages", [""])[0]) if "pages" in params else None
 
     if not os.path.exists(pdf_path):
         raise ValueError(f"PDF file not found: {pdf_path}")
@@ -45,6 +58,9 @@ def pdf_to_images_loader(argument: str):
 
     attachments = []
     for page_number, page in enumerate(doc, start=1):
+        if pages and page_number not in pages:
+            continue
+
         pix = page.get_pixmap(matrix=matrix)
 
         if img_format in ("jpg", "jpeg"):

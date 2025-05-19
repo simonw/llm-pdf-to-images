@@ -15,3 +15,15 @@ def test_pdf_to_images():
     # Now delete them
     out_dir = os.path.dirname(attachments[0].path)
     shutil.rmtree(out_dir)
+
+
+def test_pdf_to_images_with_pages():
+    path = os.path.join(os.path.dirname(__file__), "blank-pages.pdf")
+    attachments = pdf_to_images_loader(f"{path}?pages=1")
+    assert isinstance(attachments, list)
+    assert len(attachments) == 1
+    assert all(isinstance(attachment, llm.Attachment) for attachment in attachments)
+    assert attachments[0].path.endswith("page_001.jpg")
+    # Now delete them
+    out_dir = os.path.dirname(attachments[0].path)
+    shutil.rmtree(out_dir)
