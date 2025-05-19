@@ -26,13 +26,14 @@ llm -f pdf-to-images:path/to/document.pdf 'Summarize this document'
 ### Fragment syntax
 
 ```
-pdf-to-images:<path>?dpi=N&format=jpg|png&quality=Q
+pdf-to-images:<path>?dpi=N&format=jpg|png&quality=Q&pages=P
 ```
 
 - `<path>`: Path to the PDF file accessible to the environment where LLM runs.
 - `dpi=N`: (optional) Dots per inch to use when rendering the PDF pages, which affects the resolution of the output images. Defaults to `300` if omitted.
 - `format=jpg|png`: (optional) Image format to use for the output. Can be either `jpg` (default) or `png`.
 - `quality=Q`: (optional) JPEG quality factor between 1 and 100. Only applies when using JPG format. Defaults to `30` if omitted. Higher values produce better quality but larger file sizes.
+- `pages=P`: (optional) Specific pages or page ranges to convert, e.g., "1,3-5". If omitted, all pages are converted.
 
 ### More examples
 
@@ -60,10 +61,16 @@ Convert a PDF with high-quality JPG images:
 llm -f 'pdf-to-images:document.pdf?quality=90' 'extract all visible text'
 ```
 
+Convert specific pages or page ranges of a PDF:
+
+```bash
+llm -f 'pdf-to-images:document.pdf?pages=1,3-5' 'summarize selected pages'
+```
+
 Combine multiple parameters:
 
 ```bash
-llm -f 'pdf-to-images:document.pdf?dpi=450&format=jpg&quality=75' 'OCR'
+llm -f 'pdf-to-images:document.pdf?dpi=450&format=jpg&quality=75&pages=2,4-6' 'OCR selected pages'
 ```
 
 ## Development
