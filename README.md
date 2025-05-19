@@ -7,6 +7,8 @@
 
 LLM fragment plugin to load a PDF as a sequence of images
 
+This plugin uses the [PyMuPDF library](https://github.com/pymupdf/PyMuPDF) which is licensed under the AGPL.
+
 ## Installation
 
 Install this plugin in the same environment as [LLM](https://llm.datasette.io/).
