@@ -35,6 +35,7 @@ pdf-to-images:<path>?dpi=N&format=jpg|png&quality=Q
 - `dpi=N`: (optional) Dots per inch to use when rendering the PDF pages, which affects the resolution of the output images. Defaults to `300` if omitted.
 - `format=jpg|png`: (optional) Image format to use for the output. Can be either `jpg` (default) or `png`.
 - `quality=Q`: (optional) JPEG quality factor between 1 and 100. Only applies when using JPG format. Defaults to `30` if omitted. Higher values produce better quality but larger file sizes.
+- `image_count_constraint`: (optional) If the PDF contains a lot of images, you can set this to maximum number of resultant pages.  The logic will try to combine the certain number of pages into a single image. This is useful for large documents with many images. The default value is `-1`, which means no concatenation.
 
 ### More examples
 
@@ -66,6 +67,11 @@ Combine multiple parameters:
 
 ```bash
 llm -f 'pdf-to-images:document.pdf?dpi=450&format=jpg&quality=75' 'OCR'
+```
+
+Convert a large PDF document:
+```bash
+llm -f 'pdf-to-images:document.pdf?dpi=300&image_count_constraint=50' 'summarize'
 ```
 
 ## Development

@@ -3,14 +3,11 @@ name = "llm-pdf-to-images"
 version = "0.1"
 description = "LLM fragment plugin to load a PDF as a sequence of images"
 readme = "README.md"
-authors = [{name = "Simon Willison"}]
+authors = [{ name = "Simon Willison" }]
 license = "Apache-2.0"
 classifiers = []
 requires-python = ">=3.9"
-dependencies = [
-    "llm",
-    "PyMuPDF"
-]
+dependencies = ["llm", "PyMuPDF", "Pillow"]
 
 [build-system]
 requires = ["setuptools"]
