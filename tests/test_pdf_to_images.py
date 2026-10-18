@@ -1,5 +1,7 @@
 import os
 import shutil
+import subprocess
+import sys
 import llm
 from llm_pdf_to_images import pdf_to_images_loader
 
@@ -15,3 +17,14 @@ def test_pdf_to_images():
     # Now delete them
     out_dir = os.path.dirname(attachments[0].path)
     shutil.rmtree(out_dir)
+
+
+def test_llm_version_does_not_emit_fitz_deprecation():
+    result = subprocess.run(
+        [sys.executable, "-m", "llm", "--version"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    assert result.stdout.startswith("python -m llm, version ")
+    assert result.stderr == ""
